@@ -9,24 +9,21 @@ using System.Threading.Tasks;
 
 namespace Service
 {
-    public class Product
+    public class Command
     {
         public string Id { get; set; }
-        public string Name { get; set; }
-        public decimal Price { get; set; }
-        public string Category { get; set; }
+        public string Message { get; set; }
     }
     class Connect
     {
         static HttpClient client = new HttpClient();
 
-        static void ShowProduct(Product product)
+        static void ShowCommand(Command command)
         {
-            Console.WriteLine($"Name: {product.Name}\tPrice: " +
-                $"{product.Price}\tCategory: {product.Category}");
+            Console.WriteLine(command.Message);
         }
 
-        static async Task<Uri> CreateProductAsync(Product product)
+        static async Task<Uri> CreateAsync(Command product)
         {
             HttpResponseMessage response = await client.PostAsJsonAsync(
                 "api/products", product);
@@ -36,32 +33,32 @@ namespace Service
             return response.Headers.Location;
         }
 
-        static async Task<Product> GetProductAsync(string path)
+        static async Task<Command> GetAsync(string path)
         {
-            Product product = null;
+            Command product = null;
             HttpResponseMessage response = await client.GetAsync(path);
             if (response.IsSuccessStatusCode)
             {
-                product = await response.Content.ReadAsAsync<Product>();
+                product = await response.Content.ReadAsAsync<Command>();
             }
             return product;
         }
 
-        static async Task<Product> UpdateProductAsync(Product product)
+        static async Task<Command> UpdateAsync(Command command)
         {
             HttpResponseMessage response = await client.PutAsJsonAsync(
-                $"api/products/{product.Id}", product);
+                $"api/commands/{command.Id}", command);
             response.EnsureSuccessStatusCode();
 
             // Deserialize the updated product from the response body.
-            product = await response.Content.ReadAsAsync<Product>();
-            return product;
+            command = await response.Content.ReadAsAsync<Command>();
+            return command;
         }
 
         static async Task<HttpStatusCode> DeleteProductAsync(string id)
         {
             HttpResponseMessage response = await client.DeleteAsync(
-                $"api/products/{id}");
+                $"api/commands/{id}");
             return response.StatusCode;
         }
 
@@ -78,41 +75,6 @@ namespace Service
             client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
 
-            try
-            {
-                // Create a new product
-                Product product = new Product
-                {
-                    Name = "Gizmo",
-                    Price = 100,
-                    Category = "Widgets"
-                };
-
-                var url = await CreateProductAsync(product);
-                Console.WriteLine($"Created at {url}");
-
-                // Get the product
-                product = await GetProductAsync(url.PathAndQuery);
-                ShowProduct(product);
-
-                // Update the product
-                Console.WriteLine("Updating price...");
-                product.Price = 80;
-                await UpdateProductAsync(product);
-
-                // Get the updated product
-                product = await GetProductAsync(url.PathAndQuery);
-                ShowProduct(product);
-
-                // Delete the product
-                var statusCode = await DeleteProductAsync(product.Id);
-                Console.WriteLine($"Deleted (HTTP Status = {(int)statusCode})");
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
 
             Console.ReadLine();
         }
