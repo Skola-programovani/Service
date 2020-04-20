@@ -23,10 +23,10 @@ namespace Service
             Console.WriteLine(command.Message);
         }
 
-        static async Task<Uri> CreateAsync(Command product)
+        static async Task<Uri> CreateAsync(Command command)
         {
             HttpResponseMessage response = await client.PostAsJsonAsync(
-                "api/products", product);
+                "api/commands", command);
             response.EnsureSuccessStatusCode();
 
             // return URI of the created resource.
@@ -35,13 +35,13 @@ namespace Service
 
         static async Task<Command> GetAsync(string path)
         {
-            Command product = null;
+            Command command = null;
             HttpResponseMessage response = await client.GetAsync(path);
             if (response.IsSuccessStatusCode)
             {
-                product = await response.Content.ReadAsAsync<Command>();
+                command = await response.Content.ReadAsAsync<Command>();
             }
-            return product;
+            return command;
         }
 
         static async Task<Command> UpdateAsync(Command command)
@@ -55,7 +55,7 @@ namespace Service
             return command;
         }
 
-        static async Task<HttpStatusCode> DeleteProductAsync(string id)
+        static async Task<HttpStatusCode> DeleteAsync(string id)
         {
             HttpResponseMessage response = await client.DeleteAsync(
                 $"api/commands/{id}");
