@@ -43,7 +43,7 @@ namespace Service
         public static async Task RunAsync()
         {
             System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-            client.BaseAddress = new Uri("http://localhost:5000/");
+            client.BaseAddress = new Uri("https://localhost:5001/");
 
             var val = "application/json";
             var media = new MediaTypeWithQualityHeaderValue(val);
