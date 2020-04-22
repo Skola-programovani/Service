@@ -51,7 +51,6 @@
   <ItemGroup>
     <Compile Include="Connect.cs" />
     <Compile Include="Klient.cs" />
-    <Compile Include="Master.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

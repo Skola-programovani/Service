@@ -20,11 +20,11 @@ namespace Service
 
         static async Task<Uri> CreateAsync(Klient klient)
         {
+       
             HttpResponseMessage response = await client.PostAsJsonAsync(
-                "api/Klient", klient);
+                "api/klient", klient);
             response.EnsureSuccessStatusCode();
 
-            // return URI of the created resource.
             return response.Headers.Location;
         }
 
@@ -39,39 +39,25 @@ namespace Service
             return klient;
         }
 
-        static async Task<Klient> UpdateAsync(Klient klient)
-        {
-            HttpResponseMessage response = await client.PutAsJsonAsync(
-                $"api/Klient/{klient.id}", klient);
-            response.EnsureSuccessStatusCode();
-
-            // Deserialize the updated product from the response body.
-            klient = await response.Content.ReadAsAsync<Klient>();
-            return klient;
-        }
-
-        static async Task<HttpStatusCode> DeleteAsync(string id)
-        {
-            HttpResponseMessage response = await client.DeleteAsync(
-                $"api/Klient/{id}");
-            return response.StatusCode;
-        }
-
 
         public static async Task RunAsync()
         {
-            // Update port # in the following line.
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             client.BaseAddress = new Uri("http://localhost:5000/");
+
+            var val = "application/json";
+            var media = new MediaTypeWithQualityHeaderValue(val);
+
             client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Accept.Add(media);
+               
+
 
             try
             {
-                // Create a new product
                 Klient klient = new Klient
                 {
-                    id = 5,
+                    id = 1,
                     name = "klient1",
                     confirmed = true,
                     email = "email",
@@ -85,18 +71,18 @@ namespace Service
                 var url = await CreateAsync(klient);
                 Console.WriteLine($"Created at {url}");
 
-                // Get the product
+
                 klient = await GetAsync(url.PathAndQuery);
                 ShowKlient(klient);
 
 
             }
-            catch (Exception e)
+            catch (HttpRequestException e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e.InnerException.Message);
             }
-
             Console.ReadLine();
+
         }
     }
 }
