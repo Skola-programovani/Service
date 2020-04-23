@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
 
 namespace Service
 {
@@ -38,9 +40,19 @@ namespace Service
             }
             return klient;
         }
+        static async Task<Klient> UpdateAsync(Klient klient)
+        {
+            HttpResponseMessage response = await client.PutAsJsonAsync(
+                $"api/products/{klient.id}", klient);
+            response.EnsureSuccessStatusCode();
+
+            // Deserialize the updated product from the response body.
+            klient = await response.Content.ReadAsAsync<Klient>();
+            return klient;
+        }
 
 
-        public static async Task RunAsync()
+        public static async Task RunAsync(string command)
         {
             System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             client.BaseAddress = new Uri("https://localhost:5001/");
@@ -50,39 +62,71 @@ namespace Service
 
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(media);
-               
 
-
-            try
+            Klient klient = new Klient
             {
-                Klient klient = new Klient
+                name = Environment.MachineName,
+                confirmed = false,
+                MAC = GetMacAddress(),
+                IP = GetLocalIPAddress(),
+                Description = "testing",
+                lastSeen = "never"
+
+            };
+
+            if (command == "POST")
+            {
+                try
                 {
-                    id = 1,
-                    name = "klient1",
-                    confirmed = true,
-                    email = "email",
-                    MAC = "mac",
-                    IP = "ip",
-                    Description = "test",
-                    lastSeen = "---"
-
-                };
-
-                var url = await CreateAsync(klient);
-                Console.WriteLine($"Created at {url}");
-
-
-                klient = await GetAsync(url.PathAndQuery);
-                ShowKlient(klient);
-
-
+                    var url = await CreateAsync(klient);
+                    Console.WriteLine($"Created at {url}");
+                }
+                catch (HttpRequestException e)
+                {
+                    Console.WriteLine(e.InnerException.Message);
+                }
             }
-            catch (HttpRequestException e)
+            else if(command == "GET")
             {
-                Console.WriteLine(e.InnerException.Message);
+                try
+                {
+                    klient = await UpdateAsync(klient);
+                    ShowKlient(klient);
+                }
+                catch (HttpRequestException e)
+                {
+                    Console.WriteLine(e.InnerException.Message);
+                }
             }
-            Console.ReadLine();
 
+        }
+        static string GetMacAddress()
+        {
+            string macAddresses = "";
+            foreach (NetworkInterface nic in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                // Only consider Ethernet network interfaces, thereby ignoring any
+                // loopback devices etc.
+                if (nic.NetworkInterfaceType != NetworkInterfaceType.Ethernet) continue;
+                if (nic.OperationalStatus == OperationalStatus.Up)
+                {
+                    macAddresses += nic.GetPhysicalAddress().ToString();
+                    break;
+                }
+            }
+            return macAddresses;
+        }
+        public static string GetLocalIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+            throw new Exception("No network adapters with an IPv4 address in the system!");
         }
     }
 }

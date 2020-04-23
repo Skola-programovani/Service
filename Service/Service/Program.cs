@@ -15,7 +15,20 @@ namespace Service
         static void Main(string[] args)
         {
 
-            Connect.RunAsync().GetAwaiter().GetResult();
+            //Connect.RunAsync().GetAwaiter().GetResult();
+ 
+            while (true)
+            {
+
+                ConsoleKeyInfo info = Console.ReadKey();
+
+                if (info.Key == ConsoleKey.NumPad1)
+                    Connect.RunAsync("POST").GetAwaiter().GetResult();
+
+                else if (info.Key == ConsoleKey.NumPad2)
+                    Connect.RunAsync("GET").GetAwaiter().GetResult();
+
+            }
         }
     }
 }
