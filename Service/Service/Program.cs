@@ -23,10 +23,10 @@ namespace Service
                 ConsoleKeyInfo info = Console.ReadKey();
 
                 if (info.Key == ConsoleKey.NumPad1)
-                    Connect.RunAsync("POST").GetAwaiter().GetResult();
+                    Connect.RunCreateAsync().GetAwaiter().GetResult();
 
                 else if (info.Key == ConsoleKey.NumPad2)
-                    Connect.RunAsync("GET").GetAwaiter().GetResult();
+                    Connect.RunReadAsync().Wait();
 
             }
         }

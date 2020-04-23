@@ -14,6 +14,7 @@ namespace Service
     public class Connect
     {
         static HttpClient client = new HttpClient();
+        public static string path = null;
 
         static void ShowKlient(Klient klient)
         {
@@ -52,7 +53,7 @@ namespace Service
         }
 
 
-        public static async Task RunAsync(string command)
+        public static async Task RunCreateAsync()
         {
             System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             client.BaseAddress = new Uri("https://localhost:5001/");
@@ -73,33 +74,52 @@ namespace Service
                 lastSeen = "never"
 
             };
-
-            if (command == "POST")
+            try
             {
-                try
-                {
-                    var url = await CreateAsync(klient);
-                    Console.WriteLine($"Created at {url}");
-                }
-                catch (HttpRequestException e)
-                {
-                    Console.WriteLine(e.InnerException.Message);
-                }
+                var url = await CreateAsync(klient);
+                path = url.PathAndQuery;
+                Console.WriteLine($"Created at {url}");
             }
-            else if(command == "GET")
+            catch (HttpRequestException e)
             {
-                try
-                {
-                    klient = await UpdateAsync(klient);
-                    ShowKlient(klient);
-                }
-                catch (HttpRequestException e)
-                {
-                    Console.WriteLine(e.InnerException.Message);
-                }
+                Console.WriteLine(e.InnerException.Message);
             }
-
+            Console.ReadLine();
         }
+
+        public static async Task RunReadAsync()
+        {
+            using (var client = new HttpClient())
+            {
+                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+                client.BaseAddress = new Uri("http://localhost:5000/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                Console.WriteLine("GET");
+                try
+                {
+                    HttpResponseMessage response = await client.GetAsync(path);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Klient klient = await response.Content.ReadAsAsync<Klient>();
+                        Console.WriteLine("id: " + klient.id);
+                        Console.WriteLine("name: " + klient.name);
+                        Console.WriteLine("confirmed: " + klient.confirmed);
+                        Console.WriteLine("MAC: " + klient.MAC);
+                        Console.WriteLine("IP: " + klient.IP);
+                        Console.WriteLine("description: " + klient.Description);
+                        Console.WriteLine("lastSeen: " + klient.lastSeen);
+                    }
+                }
+                catch (HttpRequestException e)
+                {
+                    Console.WriteLine(e.InnerException.Message);
+                }
+                Console.ReadLine();
+            }
+        }
+
         static string GetMacAddress()
         {
             string macAddresses = "";
