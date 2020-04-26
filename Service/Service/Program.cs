@@ -15,7 +15,6 @@ namespace Service
         static void Main(string[] args)
         {
 
-            //Connect.RunAsync().GetAwaiter().GetResult();
  
             while (true)
             {
