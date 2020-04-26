@@ -24,9 +24,6 @@ namespace Service
                 if (info.Key == ConsoleKey.NumPad1)
                     Connect.RunCreateAsync().GetAwaiter().GetResult();
 
-                else if (info.Key == ConsoleKey.NumPad2)
-                    Connect.RunReadAsync().Wait();
-
             }
         }
     }
