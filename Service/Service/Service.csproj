@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Connect.cs" />
     <Compile Include="DiffBackup.cs" />
+    <Compile Include="FullBackup.cs" />
     <Compile Include="Models\Klient.cs" />
     <Compile Include="Extensions\LocalProperties.cs" />
     <Compile Include="Program.cs" />
