@@ -4,81 +4,54 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using System.Data.SqlClient;
 using System.Data;
 
 namespace Service
 {
     public class FullBackup
     {
-        private readonly string _connectionString;
-        private readonly string _backupFolderFullPath;
-        private readonly string[] _systemDatabaseNames = { "master", "tempdb", "model", "msdb" };
-
-        public FullBackup(string connectionString, string backupFolderFullPath)
+        public void NewFull()
         {
-            _connectionString = connectionString;
-            _backupFolderFullPath = backupFolderFullPath;
+            /*string fileName = @"C:/FullBack";
+            string directory = Path.GetDirectoryName(fileName);
+            if (!Directory.Exists(directory))
+                Directory.CreateDirectory(directory);
+            */
+
+            string foldername = @"C:/Backups";
+            string targetDirectory = System.IO.Path.Combine(foldername, "FullBackup");
+            System.IO.Directory.CreateDirectory(targetDirectory);
+            string fileName = "FirstBackup";
+            targetDirectory = System.IO.Path.Combine(targetDirectory, fileName);
+
+            Console.WriteLine("Path to my file: {0}\n", targetDirectory);
+
         }
 
-        public void BackupAllUserDatabases()
+        public static void Copy(string sourceDirectory, string targetDirectory)
         {
-            foreach (string databaseName in GetAllUserDatabases())
-            {
-                BackupDatabase(databaseName);
-            }
+
+            var diSource = new DirectoryInfo(sourceDirectory);
+            var diTarget = new DirectoryInfo(targetDirectory);
+
+            CopyAll(diSource, diTarget);
         }
-
-        public void BackupDatabase(string databaseName)
+        public static void CopyAll(DirectoryInfo source, DirectoryInfo target)
         {
-            string filePath = BuildBackupPathWithFilename(databaseName);
+            Directory.CreateDirectory(target.FullName);
 
-            using (var connection = new SqlConnection(_connectionString))
+            foreach (FileInfo fi in source.GetFiles())
             {
-                var query = String.Format("BACKUP DATABASE [{0}] TO DISK='{1}'", databaseName, filePath);
-
-                using (var command = new SqlCommand(query, connection))
-                {
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                }
-            }
-        }
-
-        private IEnumerable<string> GetAllUserDatabases()
-        {
-            var databases = new List<String>();
-
-            DataTable databasesTable;
-
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                connection.Open();
-
-                databasesTable = connection.GetSchema("Databases");
-
-                connection.Close();
+                Console.WriteLine(@"Copying {0}{1}", target.FullName, fi.Name);
+                fi.CopyTo(Path.Combine(target.FullName, fi.Name), true);
             }
 
-            foreach (DataRow row in databasesTable.Rows)
+            foreach (DirectoryInfo diSourceSubDir in source.GetDirectories())
             {
-                string databaseName = row["database_name"].ToString();
-
-                if (_systemDatabaseNames.Contains(databaseName))
-                    continue;
-
-                databases.Add(databaseName);
+                DirectoryInfo nextTargetSubDir =
+                    target.CreateSubdirectory(diSourceSubDir.Name);
+                CopyAll(diSourceSubDir, nextTargetSubDir);
             }
-
-            return databases;
         }
-
-        private string BuildBackupPathWithFilename(string databaseName)
-        {
-            string filename = string.Format("{0}-{1}.bak", databaseName, DateTime.Now.ToString("yyyy-MM-dd"));
-
-            return Path.Combine(_backupFolderFullPath, filename);
-        }
-
     }
 }

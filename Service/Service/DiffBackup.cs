@@ -4,51 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace Service
 {
     public class DiffBackup
     {
-        public void DirHandler(string pathOld, string pathNew)
+        public void Copy(string sourceDirectory, string targetDirectory)
         {
-            DirectoryInfo dirOld = new DirectoryInfo(pathOld);
-            DirectoryInfo dirNew = new DirectoryInfo(pathNew);
+            var diSource = new DirectoryInfo(sourceDirectory + @"\full");
+            var diTarget = new DirectoryInfo(targetDirectory);
 
-            IEnumerable<FileInfo> listOld = dirOld.GetFiles("*.*", SearchOption.AllDirectories);
-            IEnumerable<FileInfo> listNew = dirNew.GetFiles("*.*", SearchOption.AllDirectories);
+            DirectoryInfo target = new DirectoryInfo(targetDirectory);
+            int dirCount = target.GetDirectories().Length;
 
-            FileCompare myFileCompare = new FileCompare();
+            string newFolderName = "diff" + Convert.ToString(dirCount - 1);
 
-            bool Same = listOld.SequenceEqual(listNew, myFileCompare);
+            diTarget.CreateSubdirectory(newFolderName);
+            CompareDir compare = new CompareDir();
+            compare.DirHandler(sourceDirectory + @"\full", targetDirectory + @"\" + newFolderName);
 
-            var queryList1Only = (from file in listNew
-                                  select file).Except(listOld, myFileCompare);
-
-            foreach (var v in queryList1Only)
-            {
-                var replacementPath = v.FullName.Replace(pathNew, pathOld);
-                v.CopyTo(replacementPath);
-                Console.WriteLine("copied: " + v.Name);
-                
-            }
-            Console.ReadLine();
         }
-        class FileCompare : IEqualityComparer<FileInfo>
-        {
-            public FileCompare() { }
-
-            public bool Equals(FileInfo f1, FileInfo f2)
-            {
-                return (f1.Name == f2.Name &&
-                        f1.Length == f2.Length);
-            }
-
-            public int GetHashCode(System.IO.FileInfo fi)
-            {
-                string s = $"{fi.Name}{fi.Length}";
-                return s.GetHashCode();
-            }
-        }
-
     }
 }

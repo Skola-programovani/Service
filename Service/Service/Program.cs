@@ -14,7 +14,7 @@ namespace Service
         
         static void Main(string[] args)
         {
-
+            CompareDir diff = new CompareDir();
  
             while (true)
             {
@@ -23,6 +23,10 @@ namespace Service
 
                 if (info.Key == ConsoleKey.NumPad1)
                     Connect.RunCreateAsync().GetAwaiter().GetResult();
+                if (info.Key == ConsoleKey.NumPad2)
+                    diff.DirHandler(@"C:\1", @"C:\2");
+                    Console.WriteLine("done");
+
 
             }
         }
