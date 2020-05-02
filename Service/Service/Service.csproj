@@ -50,9 +50,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connect.cs" />
-    <Compile Include="CompareDir.cs" />
-    <Compile Include="DiffBackup.cs" />
-    <Compile Include="FullBackup.cs" />
+    <Compile Include="Extensions\CompareDir.cs" />
+    <Compile Include="Backups\DiffBackup.cs" />
+    <Compile Include="Backups\FullBackup.cs" />
+    <Compile Include="Backups\IncrBackup.cs" />
     <Compile Include="Models\Klient.cs" />
     <Compile Include="Extensions\LocalProperties.cs" />
     <Compile Include="Program.cs" />
