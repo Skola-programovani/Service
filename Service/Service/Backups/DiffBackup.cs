@@ -25,6 +25,13 @@ namespace Service
             CompareDir compare = new CompareDir();
             compare.DirHandler(sourceDirectory + @"\full", targetDirectory + @"\" + newFolderName);
 
+            foreach (DirectoryInfo diSourceSubDir in diSource.GetDirectories())
+            {
+                DirectoryInfo nextTargetSubDir =
+                    target.CreateSubdirectory(diSourceSubDir.Name);
+                compare.DirHandler(nextTargetSubDir.FullName, nextTargetSubDir.FullName.Replace(sourceDirectory, targetDirectory));
+            }
+
         }
     }
 }

@@ -25,10 +25,15 @@ namespace Service
             CompareDir compare = new CompareDir();
             compare.DirHandler(sourceDirectory + @"\" + FindLatest(targetDirectory), targetDirectory + @"\" + newFolderName);
 
+            foreach (DirectoryInfo diSourceSubDir in diSource.GetDirectories())
+            {
+                DirectoryInfo nextTargetSubDir =
+                    target.CreateSubdirectory(diSourceSubDir.Name);
+                compare.DirHandler(nextTargetSubDir.FullName, nextTargetSubDir.FullName.Replace(sourceDirectory, targetDirectory));
+            }
         }
         string FindLatest(string path)
         {
-            int temp = 0;
             string final = null;
             string[] tempString = Directory.GetDirectories(path);;
             List<int> ints = new List<int>();

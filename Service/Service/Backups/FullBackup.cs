@@ -28,11 +28,13 @@ namespace Service
 
         }
 
-        public static void Copy(string sourceDirectory, string targetDirectory)
+        public void Copy(string sourceDirectory, string targetDirectory)
         {
 
             var diSource = new DirectoryInfo(sourceDirectory);
-            var diTarget = new DirectoryInfo(targetDirectory);
+            var diTarget = new DirectoryInfo(targetDirectory + "@/full");
+
+            diTarget.CreateSubdirectory("full");
 
             CopyAll(diSource, diTarget);
         }
