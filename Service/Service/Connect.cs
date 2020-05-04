@@ -14,6 +14,7 @@ namespace Service
     public class Connect
     {
         static HttpClient client = new HttpClient();
+        static Writer writer = new Writer();
         public static string path = null;
 
         static async Task<Uri> CreateAsync(Klient klient)
@@ -51,6 +52,7 @@ namespace Service
             {
                 var url = await CreateAsync(klient);
                 path = url.PathAndQuery;
+                writer.SaveID(path);
                 Console.WriteLine($"Created at {url}");
             }
             catch (HttpRequestException e)

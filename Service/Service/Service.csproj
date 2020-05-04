@@ -58,6 +58,9 @@
     <Compile Include="Extensions\LocalProperties.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Extensions\Writer.cs" />
+    <Compile Include="Models\TemplateLink.cs" />
+    <Compile Include="Templates.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
