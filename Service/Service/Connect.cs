@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using Service.Models;
+using System.IO;
 
 namespace Service
 {
@@ -52,7 +54,7 @@ namespace Service
             {
                 var url = await CreateAsync(klient);
                 path = url.PathAndQuery;
-                writer.SaveID(Convert.ToString(KlientByPath(path).Id));
+                writer.SaveID("Klient",Convert.ToString(KlientByPath(path).Id));
                 Console.WriteLine($"Created at {url}");
             }
             catch (HttpRequestException e)
@@ -60,7 +62,32 @@ namespace Service
                 Console.WriteLine(e.InnerException.Message);
             }
             Console.ReadLine();
-        }   
+        }
+        public static async Task RunTemplateAsync()
+        {
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+            client.BaseAddress = new Uri("https://localhost:5001/");
+
+            var val = "application/json";
+            var media = new MediaTypeWithQualityHeaderValue(val);
+
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(media);
+
+            Template myTemplate = new Template();
+            try
+            {
+                string id = File.ReadAllText(@"c:\KlientID.txt", Encoding.UTF8);
+                myTemplate = await GetTemplateAsync(id);
+                writer.SaveID("Template", Convert.ToString(myTemplate.id));
+                Console.WriteLine("Zapsano id Templatu:" + Convert.ToString(myTemplate.id));
+            }
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine(e.InnerException.Message);
+            }
+            Console.ReadLine();
+        }
         public static async Task<Klient> KlientByPath(string path)
         {
             Klient klient = null;
@@ -70,6 +97,16 @@ namespace Service
                 klient = await response.Content.ReadAsAsync<Klient>();
             }
             return klient;
+        }
+        static async Task<Template> GetTemplateAsync(string id)
+        {
+            Template template = null;
+            HttpResponseMessage response = await client.GetAsync($"api/Templatelink/user/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                template = await response.Content.ReadAsAsync<Template>();
+            }
+            return template;
         }
     }
 }

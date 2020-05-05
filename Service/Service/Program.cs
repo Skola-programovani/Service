@@ -39,6 +39,16 @@ namespace Service
                     Console.WriteLine(e.Message);
                 }
 
+                try
+                {
+                    if (info.Key == ConsoleKey.NumPad4)
+                        Connect.RunTemplateAsync().GetAwaiter().GetResult();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
 
 
             }

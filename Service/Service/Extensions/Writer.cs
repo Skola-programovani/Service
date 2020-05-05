@@ -9,10 +9,10 @@ namespace Service
 {
     public class Writer
     {
-        public void SaveID(string text)
+        public void SaveID(string name,string text)
         {
 
-            using (StreamWriter outputFile = new StreamWriter(Path.Combine(@"C:/", "KlientID.txt")))
+            using (StreamWriter outputFile = new StreamWriter(Path.Combine(@"C:/", name + ".txt")))
             {
                     outputFile.WriteLine(text);
             }

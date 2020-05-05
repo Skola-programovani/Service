@@ -32,9 +32,10 @@ namespace Service
         {
 
             var diSource = new DirectoryInfo(sourceDirectory);
+            var diTargetOrigin = new DirectoryInfo(targetDirectory);
             var diTarget = new DirectoryInfo(targetDirectory + "@/full");
 
-            diTarget.CreateSubdirectory("full");
+            diTargetOrigin.CreateSubdirectory("full");
 
             CopyAll(diSource, diTarget);
         }
