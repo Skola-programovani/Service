@@ -17,5 +17,19 @@ namespace Service
                     outputFile.WriteLine(text);
             }
         }
+        public void DecreaseInText(string name)
+        {
+            string text = null;
+            using (StreamReader outputFile = new StreamReader(Path.Combine(@"C:/", name + ".txt")))
+            {
+                text = outputFile.ReadLine();
+            }
+            using (StreamWriter outputFile = new StreamWriter(Path.Combine(@"C:/", name + ".txt")))
+            {
+                int newId = Convert.ToInt32(text) - 1;
+                outputFile.WriteLine(newId);
+            }
+
+        }
     }
 }

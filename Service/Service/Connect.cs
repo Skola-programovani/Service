@@ -54,7 +54,7 @@ namespace Service
             {
                 var url = await CreateAsync(klient);
                 path = url.PathAndQuery;
-                writer.SaveID("Klient",Convert.ToString(KlientByPath(path).Id));
+                writer.SaveID("KlientID",Convert.ToString(KlientByPath(path).Id));
                 Console.WriteLine($"Created at {url}");
             }
             catch (HttpRequestException e)
@@ -79,8 +79,11 @@ namespace Service
             {
                 string id = File.ReadAllText(@"c:\KlientID.txt", Encoding.UTF8);
                 myTemplate = await GetTemplateAsync(id);
-                writer.SaveID("Template", Convert.ToString(myTemplate.id));
-                Console.WriteLine("Zapsano id Templatu:" + Convert.ToString(myTemplate.id));
+                writer.SaveID("TemplateID", Convert.ToString(myTemplate.id));
+                writer.SaveID("MaxFull", Convert.ToString(myTemplate.maxFull));
+                writer.SaveID("MaxSegments", Convert.ToString(myTemplate.maxSegments));
+                Console.WriteLine("Template:" + myTemplate.name);
+                Console.WriteLine("id:" + Convert.ToString(myTemplate.id));
             }
             catch (HttpRequestException e)
             {
