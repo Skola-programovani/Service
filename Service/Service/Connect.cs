@@ -52,7 +52,7 @@ namespace Service
             {
                 var url = await CreateAsync(klient);
                 path = url.PathAndQuery;
-                writer.SaveID(path);
+                writer.SaveID(Convert.ToString(KlientByPath(path).Id));
                 Console.WriteLine($"Created at {url}");
             }
             catch (HttpRequestException e)
@@ -60,9 +60,16 @@ namespace Service
                 Console.WriteLine(e.InnerException.Message);
             }
             Console.ReadLine();
+        }   
+        public static async Task<Klient> KlientByPath(string path)
+        {
+            Klient klient = null;
+            HttpResponseMessage response = await client.GetAsync(path);
+            if (response.IsSuccessStatusCode)
+            {
+                klient = await response.Content.ReadAsAsync<Klient>();
+            }
+            return klient;
         }
-
-
-        
     }
 }
