@@ -8,6 +8,6 @@ namespace Service
 {
     public interface IScheduledJob
     {
-        void Run();
+        void Run(string CronSchedule);
     }
 }

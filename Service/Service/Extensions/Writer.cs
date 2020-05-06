@@ -31,5 +31,14 @@ namespace Service
             }
 
         }
+        public string Read(string name)
+        {
+            string text = null;
+            using (StreamReader outputFile = new StreamReader(Path.Combine(@"C:/", name + ".txt")))
+            {
+                text = outputFile.ReadLine();
+            }
+            return text;
+        }
     }
 }

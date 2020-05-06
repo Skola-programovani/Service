@@ -12,7 +12,7 @@ namespace Service
 {
     class ScheduledJob : IScheduledJob
     {
-        public void Run()
+        public void Run(string CronSchedule)
         {
             // Get an instance of the Quartz.Net scheduler
             var schd = GetScheduler();
@@ -22,15 +22,15 @@ namespace Service
                 schd.Start();
 
             // Define the Job to be scheduled
-            var job = JobBuilder.Create<HelloWorldJob>()
-                .WithIdentity("WriteHelloToLog", "IT")
+            var job = JobBuilder.Create<BackupJob>()
+                .WithIdentity("Backup", "IT")
                 .RequestRecovery()
                 .Build();
 
             // Associate a trigger with the Job
             var trigger = (ICronTrigger)TriggerBuilder.Create()
-                .WithIdentity("WriteHelloToLog", "IT")
-                .WithCronSchedule("0 0/1 * 1/1 * ? *") 
+                .WithIdentity("Backup", "IT")
+                .WithCronSchedule(CronSchedule) 
                 .StartAt(DateTime.UtcNow)
                 .WithPriority(1)
                 .Build();

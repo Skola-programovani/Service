@@ -13,14 +13,17 @@ namespace Service
             FullBackup full = new FullBackup();
             IncrBackup incr = new IncrBackup();
             Writer myWriter = new Writer();
+            Connect connect = new Connect();
 
             try
             {
-                // Infinite loop, so that the console doesn't close on you
+                Connect.RunCreateAsync().GetAwaiter().GetResult();
+                Connect.RunTemplateAsync().GetAwaiter().GetResult();
+
                 while (true)
                 {
                     var sj = new ScheduledJob();
-                    sj.Run();
+                    sj.Run(myWriter.Read("Repetition"));
 
                     Console.WriteLine(@"{0}Check Quartz.net\Trace\application.log.txt for Job updates{0}",
                                         Environment.NewLine);
@@ -40,89 +43,89 @@ namespace Service
             }
             //**********************************************************************************************************************************************************************************************
 
-            while (true)
-            {
+            //while (true)
+            //{
 
-                ConsoleKeyInfo info = Console.ReadKey();
+            //    ConsoleKeyInfo info = Console.ReadKey();
 
-                if (info.Key == ConsoleKey.NumPad1)
-                    Connect.RunCreateAsync().GetAwaiter().GetResult();
-                try
-                {
-                    if (info.Key == ConsoleKey.NumPad2)
-                    {
-                        if (Convert.ToInt32(File.ReadAllText(@"c:\MaxFull.txt")) - 1 == 0)
-                        {
-                            myWriter.DecreaseInText("MaxFull");
-                            full.Copy(@"C:\1", @"C:\2");
-                            Console.WriteLine("done");
-                        }
-                        else
-                        {
-                            Console.WriteLine("přesažen limit FullBackupu");
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
+            //    if (info.Key == ConsoleKey.NumPad1)
+            //        Connect.RunCreateAsync().GetAwaiter().GetResult();
+            //    try
+            //    {
+            //        if (info.Key == ConsoleKey.NumPad2)
+            //        {
+            //            if (Convert.ToInt32(File.ReadAllText(@"c:\MaxFull.txt")) - 1 == 0)
+            //            {
+            //                myWriter.DecreaseInText("MaxFull");
+            //                full.Copy(@"C:\1", @"C:\2");
+            //                Console.WriteLine("done");
+            //            }
+            //            else
+            //            {
+            //                Console.WriteLine("přesažen limit FullBackupu");
+            //            }
+            //        }
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        Console.WriteLine(e.Message);
+            //    }
 
-                try
-                {
-                    if (info.Key == ConsoleKey.NumPad3)
-                    {
-                        if (Convert.ToInt32(File.ReadAllText(@"c:\MaxSegments.txt")) - 1 == 0)
-                        {
-                            myWriter.DecreaseInText("MaxSegments");
-                            diff.Copy(@"C:\1", @"C:\2");
-                            Console.WriteLine("done");
-                        }
-                        else
-                        {
-                            Console.WriteLine("přesažen limit FullSegments");
-                        }
-                    }
-                }
-                catch(Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
+            //    try
+            //    {
+            //        if (info.Key == ConsoleKey.NumPad3)
+            //        {
+            //            if (Convert.ToInt32(File.ReadAllText(@"c:\MaxSegments.txt")) - 1 == 0)
+            //            {
+            //                myWriter.DecreaseInText("MaxSegments");
+            //                diff.Copy(@"C:\1", @"C:\2");
+            //                Console.WriteLine("done");
+            //            }
+            //            else
+            //            {
+            //                Console.WriteLine("přesažen limit FullSegments");
+            //            }
+            //        }
+            //    }
+            //    catch(Exception e)
+            //    {
+            //        Console.WriteLine(e.Message);
+            //    }
 
-                try
-                {
-                    if (info.Key == ConsoleKey.NumPad4)
-                    {
-                        if (Convert.ToInt32(File.ReadAllText(@"c:\MaxSegments.txt")) - 1 == 0)
-                        {
-                            myWriter.DecreaseInText("MaxSegments");
-                            incr.Copy(@"C:\1", @"C:\2");
-                            Console.WriteLine("done");
-                        }
-                        else
-                        {
-                            Console.WriteLine("přesažen limit FullSegments");
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
+            //    try
+            //    {
+            //        if (info.Key == ConsoleKey.NumPad4)
+            //        {
+            //            if (Convert.ToInt32(File.ReadAllText(@"c:\MaxSegments.txt")) - 1 == 0)
+            //            {
+            //                myWriter.DecreaseInText("MaxSegments");
+            //                incr.Copy(@"C:\1", @"C:\2");
+            //                Console.WriteLine("done");
+            //            }
+            //            else
+            //            {
+            //                Console.WriteLine("přesažen limit FullSegments");
+            //            }
+            //        }
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        Console.WriteLine(e.Message);
+            //    }
 
-                try
-                {
-                    if (info.Key == ConsoleKey.NumPad5)
-                        Connect.RunTemplateAsync().GetAwaiter().GetResult();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
+            //    try
+            //    {
+            //        if (info.Key == ConsoleKey.NumPad5)
+            //            Connect.RunTemplateAsync().GetAwaiter().GetResult();
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        Console.WriteLine(e.Message);
+            //    }
 
 
 
-            }
+            //}
         }
     }
 }

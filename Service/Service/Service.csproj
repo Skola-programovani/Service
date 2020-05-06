@@ -74,7 +74,7 @@
     <Compile Include="Backups\DiffBackup.cs" />
     <Compile Include="Backups\FullBackup.cs" />
     <Compile Include="Backups\IncrBackup.cs" />
-    <Compile Include="Quartz\HelloWorldJob.cs" />
+    <Compile Include="Quartz\BackupJob.cs" />
     <Compile Include="Quartz\IScheduledJob.cs" />
     <Compile Include="Models\Klient.cs" />
     <Compile Include="Extensions\LocalProperties.cs" />

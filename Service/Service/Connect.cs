@@ -82,6 +82,7 @@ namespace Service
                 writer.SaveID("TemplateID", Convert.ToString(myTemplate.id));
                 writer.SaveID("MaxFull", Convert.ToString(myTemplate.maxFull));
                 writer.SaveID("MaxSegments", Convert.ToString(myTemplate.maxSegments));
+                writer.SaveID("Repetition", myTemplate.repetition);
                 Console.WriteLine("Template:" + myTemplate.name);
                 Console.WriteLine("id:" + Convert.ToString(myTemplate.id));
             }
