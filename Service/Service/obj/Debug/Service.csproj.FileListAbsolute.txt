@@ -10,3 +10,14 @@ C:\Users\pc\Documents\GitHub\Service\Service\Service\obj\Debug\Service.csproj.Co
 C:\Users\pc\Documents\GitHub\Service\Service\Service\obj\Debug\Service.exe
 C:\Users\pc\Documents\GitHub\Service\Service\Service\obj\Debug\Service.pdb
 C:\Users\pc\Documents\GitHub\Service\Service\Service\obj\Debug\Service.csproj.CoreCompileInputs.cache
+C:\Users\pc\Documents\GitHub\Service\Service\Service\bin\Debug\Common.Logging.Core.dll
+C:\Users\pc\Documents\GitHub\Service\Service\Service\bin\Debug\Common.Logging.dll
+C:\Users\pc\Documents\GitHub\Service\Service\Service\bin\Debug\log4net.dll
+C:\Users\pc\Documents\GitHub\Service\Service\Service\bin\Debug\Quartz.dll
+C:\Users\pc\Documents\GitHub\Service\Service\Service\bin\Debug\Common.Logging.pdb
+C:\Users\pc\Documents\GitHub\Service\Service\Service\bin\Debug\Common.Logging.xml
+C:\Users\pc\Documents\GitHub\Service\Service\Service\bin\Debug\Common.Logging.Core.pdb
+C:\Users\pc\Documents\GitHub\Service\Service\Service\bin\Debug\Common.Logging.Core.xml
+C:\Users\pc\Documents\GitHub\Service\Service\Service\bin\Debug\log4net.xml
+C:\Users\pc\Documents\GitHub\Service\Service\Service\bin\Debug\Quartz.pdb
+C:\Users\pc\Documents\GitHub\Service\Service\Service\bin\Debug\Quartz.xml

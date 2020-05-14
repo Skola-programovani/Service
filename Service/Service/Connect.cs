@@ -59,7 +59,7 @@ namespace Service
             }
             catch (HttpRequestException e)
             {
-                Console.WriteLine(e.InnerException.Message);
+                Console.WriteLine(e.Message);
             }
             Console.ReadLine();
         }
@@ -77,7 +77,7 @@ namespace Service
             Template myTemplate = new Template();
             try
             {
-                string id = File.ReadAllText(@"c:\KlientID.txt", Encoding.UTF8);
+                string id = File.ReadAllText(@"C:\Users\pc\Desktop\KlientID.txt", Encoding.UTF8);
                 myTemplate = await GetTemplateAsync(id);
                 writer.SaveID("TemplateID", Convert.ToString(myTemplate.id));
                 writer.SaveID("MaxFull", Convert.ToString(myTemplate.maxFull));
@@ -89,6 +89,10 @@ namespace Service
             catch (HttpRequestException e)
             {
                 Console.WriteLine(e.InnerException.Message);
+            }
+            catch (System.NullReferenceException d)
+            {
+                Console.WriteLine(d.InnerException.Message);
             }
             Console.ReadLine();
         }

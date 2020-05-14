@@ -11,20 +11,24 @@ namespace Service
     {
         public void SaveID(string name,string text)
         {
+            using (StreamWriter sw = File.CreateText(@"C:\Users\pc\Desktop\" + name + ".txt"))
+            {
 
-            using (StreamWriter outputFile = new StreamWriter(Path.Combine(@"C:/", name + ".txt")))
+            }
+            using (StreamWriter outputFile = new StreamWriter(@"C:\Users\pc\Desktop\" + name + ".txt"))
             {
                     outputFile.WriteLine(text);
             }
+            Console.WriteLine("id copied to: " + Path.Combine(@"C:\Users\pc\Desktop\", name + ".txt"));
         }
         public void DecreaseInText(string name)
         {
             string text = null;
-            using (StreamReader outputFile = new StreamReader(Path.Combine(@"C:/", name + ".txt")))
+            using (StreamReader outputFile = new StreamReader(Path.Combine(@"C:\Users\pc\Desktop\", name + ".txt")))
             {
                 text = outputFile.ReadLine();
             }
-            using (StreamWriter outputFile = new StreamWriter(Path.Combine(@"C:/", name + ".txt")))
+            using (StreamWriter outputFile = new StreamWriter(Path.Combine(@"C:\Users\pc\Desktop\", name + ".txt")))
             {
                 int newId = Convert.ToInt32(text) - 1;
                 outputFile.WriteLine(newId);
@@ -34,7 +38,7 @@ namespace Service
         public string Read(string name)
         {
             string text = null;
-            using (StreamReader outputFile = new StreamReader(Path.Combine(@"C:/", name + ".txt")))
+            using (StreamReader outputFile = new StreamReader(Path.Combine(@"C:\Users\pc\Desktop\", name + ".txt")))
             {
                 text = outputFile.ReadLine();
             }

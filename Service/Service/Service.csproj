@@ -84,7 +84,6 @@
     <Compile Include="Extensions\Writer.cs" />
     <Compile Include="Models\TemplateLink.cs" />
     <Compile Include="Quartz\ScheduledJob.cs" />
-    <Compile Include="Templates.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
