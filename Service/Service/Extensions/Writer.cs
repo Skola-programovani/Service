@@ -44,5 +44,19 @@ namespace Service
             }
             return text;
         }
+        public List<string[]> ReadSnap(string path)
+        {
+            List<string[]> output = new List<string[]>();
+
+            string[] lines = File.ReadAllLines(@"D:\Temp\MyFile.txt");
+
+            foreach (string line in lines)
+            {
+                string[] sline = line.Split(Convert.ToChar(","));
+                output.Add(sline);
+            }
+
+            return output;
+        }
     }
 }
