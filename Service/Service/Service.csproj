@@ -78,6 +78,7 @@
     <Compile Include="Backups-2.0\FullBackup2.cs" />
     <Compile Include="Backups-2.0\IncrBackup2.cs" />
     <Compile Include="Extensions\SnapCompare.cs" />
+    <Compile Include="Overseer.cs" />
     <Compile Include="Quartz\BackupJob.cs" />
     <Compile Include="Quartz\IScheduledJob.cs" />
     <Compile Include="Models\Klient.cs" />

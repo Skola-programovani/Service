@@ -58,5 +58,26 @@ namespace Service
 
             return output;
         }
+        public void WriteField(int typ,string[] text)
+        {
+            string name = null;
+            if(typ == 1)
+                name = @"C:\Users\pc\Desktop\FullRepet.txt";
+            else if(typ == 2)
+                name = @"C:\Users\pc\Desktop\DiffRepet.txt";
+            else if(typ == 3)
+                name = @"C:\Users\pc\Desktop\IncrRepet.txt";
+            if (File.Exists(name))
+            {
+                File.Delete(name);
+            }
+            File.Create(name);
+            File.WriteAllLines(name, text);
+        }
+        public string[] ReadField(string path)
+        {
+            string[] output = File.ReadAllLines(path);
+            return output;
+        }
     }
 }

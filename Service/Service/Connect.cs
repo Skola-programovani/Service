@@ -80,9 +80,13 @@ namespace Service
                 string id = File.ReadAllText(@"C:\Users\pc\Desktop\KlientID.txt", Encoding.UTF8);
                 myTemplate = await GetTemplateAsync(id);
                 writer.SaveID("TemplateID", Convert.ToString(myTemplate.id));
-                writer.SaveID("MaxFull", Convert.ToString(myTemplate.maxFull));
-                writer.SaveID("MaxSegments", Convert.ToString(myTemplate.maxSegments));
-                writer.SaveID("Repetition", myTemplate.repetition);
+                if(myTemplate.backup == 1)
+                    writer.SaveID("MaxFull", Convert.ToString(myTemplate.retention));
+                if (myTemplate.backup == 2)
+                    writer.SaveID("MaxDiff", Convert.ToString(myTemplate.retention));
+                if (myTemplate.backup == 3)
+                    writer.SaveID("MaxIncr", Convert.ToString(myTemplate.retention));
+                writer.WriteField(myTemplate.backup, myTemplate.repetition);
                 Console.WriteLine("Template:" + myTemplate.name);
                 Console.WriteLine("id:" + Convert.ToString(myTemplate.id));
             }
