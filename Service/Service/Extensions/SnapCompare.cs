@@ -9,7 +9,7 @@ namespace Service
     public class SnapCompare
     {
         static Writer myWriter = new Writer();
-        List<string[]> comparelist = myWriter.ReadSnap(@"C:\Snap\SnapText.txt");
+        List<string[]> comparelist = myWriter.ReadSnap(@"C:\Temp\SnapText.txt");
 
         public bool IsSnappedFile(string path, string created, string hash)
         {

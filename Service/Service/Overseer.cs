@@ -17,13 +17,13 @@ namespace Service
         Writer myWriter = new Writer();
         public void Run()
         {
-            if (File.Exists(@"C:\Users\pc\Desktop\FullRepet.txt"))
+            if (File.Exists(@"C:\Temp\FullRepet.txt"))
             {
-                foreach(string datetime in myWriter.ReadField(@"C:\Users\pc\Desktop\FullRepet.txt"))
+                foreach(string datetime in myWriter.ReadField(@"C:\Temp\FullRepet.txt"))
                 {
                     if(datetime == Convert.ToString(DateTime.Now))
                     {
-                        if (Convert.ToInt32(File.ReadAllText(@"C:\Users\pc\Desktop\MaxFull.txt")) - 1 == 0)
+                        if (Convert.ToInt32(File.ReadAllText(@"C:\Temp\MaxFull.txt")) - 1 == 0)
                         {
                             myWriter.DecreaseInText("MaxFull");
                             full.Copy(@"C:\1", @"C:\2");
@@ -36,13 +36,13 @@ namespace Service
                     }
                 }
             }
-            if (File.Exists(@"C:\Users\pc\Desktop\DiffRepet.txt"))
+            if (File.Exists(@"C:\Temp\DiffRepet.txt"))
             {
-                foreach (string datetime in myWriter.ReadField(@"C:\Users\pc\Desktop\DiffRepet.txt"))
+                foreach (string datetime in myWriter.ReadField(@"C:\Temp\DiffRepet.txt"))
                 {
                     if (datetime == Convert.ToString(DateTime.Now))
                     {
-                        if (Convert.ToInt32(File.ReadAllText(@"C:\Users\pc\Desktop\MaxDiff.txt")) - 1 == 0)
+                        if (Convert.ToInt32(File.ReadAllText(@"C:\Temp\MaxDiff.txt")) - 1 == 0)
                         {
                             myWriter.DecreaseInText("MaxDiff");
                             diff.Copy(@"C:\1", @"C:\2");
@@ -55,13 +55,13 @@ namespace Service
                     }
                 }
             }
-            if (File.Exists(@"C:\Users\pc\Desktop\IncrRepet.txt"))
+            if (File.Exists(@"C:\Temp\IncrRepet.txt"))
             {
-                foreach (string datetime in myWriter.ReadField(@"C:\Users\pc\Desktop\IncrRepet.txt"))
+                foreach (string datetime in myWriter.ReadField(@"C:\Temp\IncrRepet.txt"))
                 {
                     if (datetime == Convert.ToString(DateTime.Now))
                     {
-                        if (Convert.ToInt32(File.ReadAllText(@"C:\Users\pc\Desktop\MaxIncr.txt")) - 1 == 0)
+                        if (Convert.ToInt32(File.ReadAllText(@"C:\Temp\MaxIncr.txt")) - 1 == 0)
                         {
                             myWriter.DecreaseInText("MaxIncr");
                             incr.Copy(@"C:\1", @"C:\2");

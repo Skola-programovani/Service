@@ -70,6 +70,7 @@ namespace Service
 
             var val = "application/json";
             var media = new MediaTypeWithQualityHeaderValue(val);
+            path = "path";
 
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(media);
@@ -77,7 +78,7 @@ namespace Service
             Template myTemplate = new Template();
             try
             {
-                string id = File.ReadAllText(@"C:\Users\pc\Desktop\KlientID.txt", Encoding.UTF8);
+                string id = File.ReadAllText(@"C:\Temp\KlientID.txt", Encoding.UTF8);
                 myTemplate = await GetTemplateAsync(id);
                 writer.SaveID("TemplateID", Convert.ToString(myTemplate.id));
                 if(myTemplate.backup == 1)
@@ -92,10 +93,12 @@ namespace Service
             }
             catch (HttpRequestException e)
             {
+                Console.WriteLine("problém s http");
                 Console.WriteLine(e.InnerException.Message);
             }
             catch (System.NullReferenceException d)
             {
+                Console.WriteLine("nullová reference");
                 Console.WriteLine(d.InnerException.Message);
             }
             Console.ReadLine();

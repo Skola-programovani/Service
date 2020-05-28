@@ -49,7 +49,7 @@ namespace Service
                 {
                     Console.WriteLine(@"Copying {0}{1}", target.FullName, fi.Name);
                     fi.CopyTo(Path.Combine(target.FullName, fi.Name), true);
-                    File.AppendAllText(@"C:\Snap\SnapText.txt",
+                    File.AppendAllText(@"C:\Temp\SnapText.txt",
                           fi.FullName + "," + fi.Attributes + "," + fi.CreationTime.ToString() + "," + fi.GetHashCode() + Environment.NewLine);
 
                 }
@@ -59,7 +59,7 @@ namespace Service
                 {
                     DirectoryInfo nextTargetSubDir =
                         target.CreateSubdirectory(diSourceSubDir.Name);
-                    File.AppendAllText(@"C:\Snap\SnapText.txt",
+                    File.AppendAllText(@"C:\Temp\SnapText.txt",
                           diSourceSubDir.FullName + "," + diSourceSubDir.Attributes + "," + diSourceSubDir.CreationTime.ToString() + Environment.NewLine);
                     CopyAll(diSourceSubDir, nextTargetSubDir);
                 }

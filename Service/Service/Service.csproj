@@ -72,15 +72,15 @@
     <Compile Include="Connect.cs" />
     <Compile Include="Backups-2.0\DiffBackup2.cs" />
     <Compile Include="Extensions\CompareDir.cs" />
-    <Compile Include="Backups\DiffBackup.cs" />
-    <Compile Include="Backups\FullBackup.cs" />
-    <Compile Include="Backups\IncrBackup.cs" />
+    <Compile Include="Junk\Backups\DiffBackup.cs" />
+    <Compile Include="Junk\Backups\FullBackup.cs" />
+    <Compile Include="Junk\Backups\IncrBackup.cs" />
     <Compile Include="Backups-2.0\FullBackup2.cs" />
     <Compile Include="Backups-2.0\IncrBackup2.cs" />
     <Compile Include="Extensions\SnapCompare.cs" />
     <Compile Include="Overseer.cs" />
-    <Compile Include="Quartz\BackupJob.cs" />
-    <Compile Include="Quartz\IScheduledJob.cs" />
+    <Compile Include="Junk\Quartz\BackupJob.cs" />
+    <Compile Include="Junk\Quartz\IScheduledJob.cs" />
     <Compile Include="Models\Klient.cs" />
     <Compile Include="Extensions\LocalProperties.cs" />
     <Compile Include="Models\Template.cs" />
@@ -88,7 +88,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\Writer.cs" />
     <Compile Include="Models\TemplateLink.cs" />
-    <Compile Include="Quartz\ScheduledJob.cs" />
+    <Compile Include="Junk\Quartz\ScheduledJob.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

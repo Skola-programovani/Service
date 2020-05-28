@@ -11,24 +11,24 @@ namespace Service
     {
         public void SaveID(string name,string text)
         {
-            using (StreamWriter sw = File.CreateText(@"C:\Users\pc\Desktop\" + name + ".txt"))
+            using (StreamWriter sw = File.CreateText(@"C:\Temp\" + name + ".txt"))
             {
 
             }
-            using (StreamWriter outputFile = new StreamWriter(@"C:\Users\pc\Desktop\" + name + ".txt"))
+            using (StreamWriter outputFile = new StreamWriter(@"C:\Temp\" + name + ".txt"))
             {
                     outputFile.WriteLine(text);
             }
-            Console.WriteLine("id copied to: " + Path.Combine(@"C:\Users\pc\Desktop\", name + ".txt"));
+            Console.WriteLine("id copied to: " + Path.Combine(@"C:\Temp\", name + ".txt"));
         }
         public void DecreaseInText(string name)
         {
             string text = null;
-            using (StreamReader outputFile = new StreamReader(Path.Combine(@"C:\Users\pc\Desktop\", name + ".txt")))
+            using (StreamReader outputFile = new StreamReader(Path.Combine(@"C:\Temp\", name + ".txt")))
             {
                 text = outputFile.ReadLine();
             }
-            using (StreamWriter outputFile = new StreamWriter(Path.Combine(@"C:\Users\pc\Desktop\", name + ".txt")))
+            using (StreamWriter outputFile = new StreamWriter(Path.Combine(@"C:\Temp\", name + ".txt")))
             {
                 int newId = Convert.ToInt32(text) - 1;
                 outputFile.WriteLine(newId);
@@ -38,7 +38,7 @@ namespace Service
         public string Read(string name)
         {
             string text = null;
-            using (StreamReader outputFile = new StreamReader(Path.Combine(@"C:\Users\pc\Desktop\", name + ".txt")))
+            using (StreamReader outputFile = new StreamReader(Path.Combine(@"C:\Temp\", name + ".txt")))
             {
                 text = outputFile.ReadLine();
             }
@@ -62,11 +62,11 @@ namespace Service
         {
             string name = null;
             if(typ == 1)
-                name = @"C:\Users\pc\Desktop\FullRepet.txt";
+                name = @"C:\Temp\FullRepet.txt";
             else if(typ == 2)
-                name = @"C:\Users\pc\Desktop\DiffRepet.txt";
+                name = @"C:\Temp\DiffRepet.txt";
             else if(typ == 3)
-                name = @"C:\Users\pc\Desktop\IncrRepet.txt";
+                name = @"C:\Temp\IncrRepet.txt";
             if (File.Exists(name))
             {
                 File.Delete(name);

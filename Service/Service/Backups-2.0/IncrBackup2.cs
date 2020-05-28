@@ -35,13 +35,13 @@ namespace Service
         }
         void UpdateSnapshot(DirectoryInfo source)
         {
-            File.WriteAllText(@"C:\Snap\SnapText.txt", String.Empty);
+            File.WriteAllText(@"C:\Temp\SnapText.txt", String.Empty);
             using (StreamWriter sw = new StreamWriter("SnapText.txt"))
             {
                 foreach (FileInfo fi in source.GetFiles())
                 {
 
-                    File.AppendAllText(@"C:\Snap\SnapText.txt",
+                    File.AppendAllText(@"C:\Temp\SnapText.txt",
                           fi.FullName + "," + fi.Attributes + "," + fi.CreationTime.ToString() + "," + fi.GetHashCode() + Environment.NewLine);
 
                 }
@@ -50,7 +50,7 @@ namespace Service
                 foreach (DirectoryInfo diSourceSubDir in source.GetDirectories())
                 {
 
-                    File.AppendAllText(@"C:\Snap\SnapText.txt",
+                    File.AppendAllText(@"C:\Temp\SnapText.txt",
                           diSourceSubDir.FullName + "," + diSourceSubDir.Attributes + "," + diSourceSubDir.CreationTime.ToString() + Environment.NewLine);
                     UpdateSnapshot(diSourceSubDir);
                 }
