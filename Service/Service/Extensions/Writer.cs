@@ -61,7 +61,7 @@ namespace Service
         public void WriteField(int typ,string[] text)
         {
             string name = null;
-            if(typ == 1)
+            if (typ == 1)
                 name = @"C:\Temp\FullRepet.txt";
             else if(typ == 2)
                 name = @"C:\Temp\DiffRepet.txt";

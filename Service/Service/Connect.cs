@@ -81,13 +81,24 @@ namespace Service
                 string id = File.ReadAllText(@"C:\Temp\KlientID.txt", Encoding.UTF8);
                 myTemplate = await GetTemplateAsync(id);
                 writer.SaveID("TemplateID", Convert.ToString(myTemplate.id));
-                if(myTemplate.backup == 1)
-                    writer.SaveID("MaxFull", Convert.ToString(myTemplate.retention));
-                if (myTemplate.backup == 2)
-                    writer.SaveID("MaxDiff", Convert.ToString(myTemplate.retention));
-                if (myTemplate.backup == 3)
-                    writer.SaveID("MaxIncr", Convert.ToString(myTemplate.retention));
-                writer.WriteField(myTemplate.backup, myTemplate.repetition);
+                if (myTemplate.backup == 1)
+                {
+                    Console.WriteLine("Zalohují se jen Fully");
+                    writer.SaveID("MaxFull", Convert.ToString(myTemplate.maxFull));
+                }
+                else if (myTemplate.backup == 2)
+                {
+                    Console.WriteLine("Zalohují se jen Fully a Diffy");
+                    writer.SaveID("MaxFull", Convert.ToString(myTemplate.maxFull));
+                    writer.SaveID("MaxDiff", Convert.ToString(myTemplate.maxSegments));
+                }
+                else if (myTemplate.backup == 3)
+                {
+                    Console.WriteLine("Zalohují se jen Fully a Incrementaly");
+                    writer.SaveID("MaxFull", Convert.ToString(myTemplate.maxFull));
+                    writer.SaveID("MaxIncr", Convert.ToString(myTemplate.maxSegments));
+                }
+                writer.WriteField(1, myTemplate.re);
                 Console.WriteLine("Template:" + myTemplate.name);
                 Console.WriteLine("id:" + Convert.ToString(myTemplate.id));
             }

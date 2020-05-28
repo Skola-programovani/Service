@@ -12,8 +12,8 @@ namespace Service.Models
         public string name { get; set; }
         public int backup { get; set; }
         public string format { get; set; }
-        public int retention { get; set; }
-        public int sources { get; set; }
+        public int maxFull { get; set; }
+        public int maxSegments { get; set; }
         public int destinations { get; set; }
         public string[] repetition { get; set; }
 
