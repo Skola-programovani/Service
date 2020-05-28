@@ -48,7 +48,7 @@ namespace Service
         {
             List<string[]> output = new List<string[]>();
 
-            string[] lines = File.ReadAllLines(@"D:\Temp\MyFile.txt");
+            string[] lines = File.ReadAllLines(@"C:\Temp\MyFile.txt");
 
             foreach (string line in lines)
             {

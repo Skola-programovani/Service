@@ -10,10 +10,17 @@ namespace Service
         
         static void Main(string[] args)
         {
-            DiffBackup diff = new DiffBackup();
-            FullBackup full = new FullBackup();
-            IncrBackup incr = new IncrBackup();
-            Writer myWriter = new Writer();
+            Overseer o = new Overseer();
+
+            var startTimeSpan = TimeSpan.Zero;
+            var periodTimeSpan = TimeSpan.FromMinutes(1);
+
+            var timer = new System.Threading.Timer((e) =>
+            {
+                Console.WriteLine("Overseer provádí kontrolu");
+                o.Run();
+
+            }, null, startTimeSpan, periodTimeSpan);
 
 
             while (true)
@@ -31,7 +38,7 @@ namespace Service
                 }
                 try
                 {
-                    if (info.Key == ConsoleKey.NumPad5)
+                    if (info.Key == ConsoleKey.NumPad2)
                         Connect.RunTemplateAsync().GetAwaiter().GetResult();
                 }
                 catch (Exception e)
