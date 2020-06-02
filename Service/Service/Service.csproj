@@ -83,6 +83,7 @@
     <Compile Include="Connect.cs" />
     <Compile Include="Backups-2.0\DiffBackup2.cs" />
     <Compile Include="Extensions\CompareDir.cs" />
+    <Compile Include="FTP.cs" />
     <Compile Include="Junk\Backups\DiffBackup.cs" />
     <Compile Include="Junk\Backups\FullBackup.cs" />
     <Compile Include="Junk\Backups\IncrBackup.cs" />
@@ -100,7 +101,8 @@
     <Compile Include="Extensions\Writer.cs" />
     <Compile Include="Models\TemplateLink.cs" />
     <Compile Include="Junk\Quartz\ScheduledJob.cs" />
-    <Compile Include="Zipper.cs" />
+    <Compile Include="Models\Report.cs" />
+    <Compile Include="Extensions\Zipper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

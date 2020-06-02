@@ -91,14 +91,16 @@ namespace Service
                     Console.WriteLine("Zalohují se jen Fully a Diffy");
                     writer.SaveID("MaxFull", Convert.ToString(myTemplate.maxFull));
                     writer.SaveID("MaxDiff", Convert.ToString(myTemplate.maxSegments));
+                    writer.SaveID("Retention", Convert.ToString(myTemplate.maxSegments));
                 }
                 else if (myTemplate.backup == 3)
                 {
                     Console.WriteLine("Zalohují se jen Fully a Incrementaly");
                     writer.SaveID("MaxFull", Convert.ToString(myTemplate.maxFull));
                     writer.SaveID("MaxIncr", Convert.ToString(myTemplate.maxSegments));
+                    writer.SaveID("Retention", Convert.ToString(myTemplate.maxSegments));
                 }
-                writer.WriteField(1, myTemplate.re);
+                writer.WriteField(1, myTemplate.repetition);
                 Console.WriteLine("Template:" + myTemplate.name);
                 Console.WriteLine("id:" + Convert.ToString(myTemplate.id));
             }
@@ -133,6 +135,46 @@ namespace Service
                 template = await response.Content.ReadAsAsync<Template>();
             }
             return template;
+        }
+
+        static async Task<Uri> PutReportAsync(Report report)
+        {
+            HttpResponseMessage response = await client.PostAsJsonAsync(
+                "api/reports", report);
+            response.EnsureSuccessStatusCode();
+            
+            return response.Headers.Location;
+        }
+
+        public static async Task RunRepAsync(DateTime start, DateTime end, string backedup, string result, string errorinfo)
+        {
+            client.BaseAddress = new Uri("https://localhost:5001/");
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+            Report report = new Report
+            {
+                idTemplate = Convert.ToInt32(writer.Read((@"C:\Temp\TemplateID.txt"))),
+                idTemplateLink = 5,
+                idKlient = Convert.ToInt32(writer.Read((@"C:\Temp\KlientID.txt"))),
+                JobStart = start,
+                JobEnd = end,
+                FileBackedup = backedup,
+                Result = result,
+                ErrorInfo = errorinfo
+            };
+            try
+            {
+                await PutReportAsync(report);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            Console.ReadLine();
         }
     }
 }

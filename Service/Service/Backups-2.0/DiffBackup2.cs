@@ -10,17 +10,17 @@ namespace Service
     public class DiffBackup2
     {
         static SnapCompare myCompare = new SnapCompare();
-        public void Copy(string sourceDirectory, string targetDirectory)
+        static FTP ftp = new FTP();
+        public void Copy(string sourceDirectory)
         {
-            var target = new DirectoryInfo(targetDirectory + @"\diff");
-            var source = new DirectoryInfo(sourceDirectory + @"\full");
+            var source = new DirectoryInfo(sourceDirectory);
+            
 
             foreach (FileInfo fi in source.GetFiles())
             {
                 if (!myCompare.IsSnappedFile(fi.FullName, fi.CreationTime.ToString(), Convert.ToString(fi.GetHashCode())))
                 {
-                    var replacementPath = fi.FullName.Replace(targetDirectory, sourceDirectory);
-                    fi.CopyTo(replacementPath);
+                    ftp.UploadFile(fi.FullName);
                 }
             }
 
@@ -28,9 +28,9 @@ namespace Service
             {
                 if (!myCompare.IsSnappedFile(di.FullName, di.CreationTime.ToString(), Convert.ToString(di.GetHashCode())))
                 {
-                    target.CreateSubdirectory(di.Name);
+                    ftp.CreateFolder(di.FullName);
                 }
-                Copy(di.FullName, di.FullName.Replace(sourceDirectory, targetDirectory));
+                Copy(di.FullName);
             }
         }
     }

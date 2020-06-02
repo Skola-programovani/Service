@@ -15,65 +15,84 @@ namespace Service
         FullBackup2 full = new FullBackup2();
         IncrBackup2 incr = new IncrBackup2();
         Writer myWriter = new Writer();
+        bool switcher = true;
         public void Run()
         {
-            if (File.Exists(@"C:\Temp\FullRepet.txt"))
+            if (switcher)
             {
-                foreach(string datetime in myWriter.ReadField(@"C:\Temp\FullRepet.txt"))
+                if (File.Exists(@"C:\Temp\FullRepet.txt"))
                 {
-                    if(datetime == Convert.ToString(DateTime.Now))
+                    Console.WriteLine("Provádí se Full Backup");
+                    foreach (string datetime in myWriter.ReadField(@"C:\Temp\FullRepet.txt"))
                     {
-                        if (Convert.ToInt32(File.ReadAllText(@"C:\Temp\MaxFull.txt")) - 1 == 0)
+                        if (datetime == Convert.ToString(DateTime.Now))
                         {
-                            myWriter.DecreaseInText("MaxFull");
-                            full.Copy(@"C:\1", @"C:\2");
-                            Console.WriteLine("done");
-                        }
-                        else
-                        {
-                            Console.WriteLine("přesažen limit FullBackupu");
+                            if (Convert.ToInt32(File.ReadAllText(@"C:\Temp\MaxFull.txt")) == 0)
+                            {
+                                myWriter.DecreaseInText("MaxFull");
+                                full.Copy(@"C:\1");
+                                Console.WriteLine("done");
+                                switcher = false;
+                            }
+                            else
+                            {
+                                Console.WriteLine("přesažen limit FullBackupu");
+                            }
                         }
                     }
                 }
             }
-            if (File.Exists(@"C:\Temp\DiffRepet.txt"))
+            else
             {
-                foreach (string datetime in myWriter.ReadField(@"C:\Temp\DiffRepet.txt"))
+                if (File.Exists(@"C:\Temp\DiffRepet.txt"))
                 {
-                    if (datetime == Convert.ToString(DateTime.Now))
+                    Console.WriteLine("Provádí se Diff Backup");
+                    foreach (string datetime in myWriter.ReadField(@"C:\Temp\DiffRepet.txt"))
                     {
-                        if (Convert.ToInt32(File.ReadAllText(@"C:\Temp\MaxDiff.txt")) - 1 == 0)
+                        if (datetime == Convert.ToString(DateTime.Now))
                         {
-                            myWriter.DecreaseInText("MaxDiff");
-                            diff.Copy(@"C:\1", @"C:\2");
-                            Console.WriteLine("done");
+                            if (Convert.ToInt32(File.ReadAllText(@"C:\Temp\MaxSegments.txt")) != 0)
+                            {
+                                myWriter.DecreaseInText("MaxSegments");
+                                diff.Copy(@"C:\1");
+                                Console.WriteLine("done");
+                                
+                            }
+                            else
+                            {
+                                Console.WriteLine("přesažen limit Segmentů");
+                                switcher = true;
+                                myWriter.Refill("MaxSegments");
+                            }
                         }
-                        else
+                    }
+                }
+                if (File.Exists(@"C:\Temp\IncrRepet.txt"))
+                {
+                    Console.WriteLine("Provádí se Incremental Backup");
+                    foreach (string datetime in myWriter.ReadField(@"C:\Temp\IncrRepet.txt"))
+                    {
+                        if (datetime == Convert.ToString(DateTime.Now))
                         {
-                            Console.WriteLine("přesažen limit DiffBackupu");
+                            if (Convert.ToInt32(File.ReadAllText(@"C:\Temp\MaxSegments.txt")) != 0)
+                            {
+                                myWriter.DecreaseInText("MaxSegments");
+                                incr.Copy(@"C:\1");
+                                incr.UpdateSnapshot(@"C:\1");
+                                Console.WriteLine("done");
+
+                            }
+                            else
+                            {
+                                Console.WriteLine("přesažen limit Segmentů");
+                                switcher = true;
+                                myWriter.Refill("MaxSegments");
+                            }
                         }
                     }
                 }
             }
-            if (File.Exists(@"C:\Temp\IncrRepet.txt"))
-            {
-                foreach (string datetime in myWriter.ReadField(@"C:\Temp\IncrRepet.txt"))
-                {
-                    if (datetime == Convert.ToString(DateTime.Now))
-                    {
-                        if (Convert.ToInt32(File.ReadAllText(@"C:\Temp\MaxIncr.txt")) - 1 == 0)
-                        {
-                            myWriter.DecreaseInText("MaxIncr");
-                            incr.Copy(@"C:\1", @"C:\2");
-                            Console.WriteLine("done");
-                        }
-                        else
-                        {
-                            Console.WriteLine("přesažen limit IncrBackupu");
-                        }
-                    }
-                }
-            }
+            
         }
     }
 }

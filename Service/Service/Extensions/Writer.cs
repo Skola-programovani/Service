@@ -79,5 +79,14 @@ namespace Service
             string[] output = File.ReadAllLines(path);
             return output;
         }
+        public void Refill(string empty)
+        {
+            string filling = null;
+            using (StreamReader outputFile = new StreamReader(Path.Combine(@"C:\Temp\Repetition.txt")))
+            {
+                filling = outputFile.ReadLine();
+            }
+            File.WriteAllText(@"C:\Temp\" + empty + ".txt", filling);
+        }
     }
 }

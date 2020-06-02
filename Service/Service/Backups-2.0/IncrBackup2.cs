@@ -9,18 +9,18 @@ namespace Service
 {
     public class IncrBackup2
     {
+        FTP ftp = new FTP();
         static SnapCompare myCompare = new SnapCompare();
-        public void Copy(string sourceDirectory, string targetDirectory)
+        public void Copy(string sourceDirectory)
         {
-            var target = new DirectoryInfo(targetDirectory + @"\incr");
             var source = new DirectoryInfo(sourceDirectory);
+
 
             foreach (FileInfo fi in source.GetFiles())
             {
                 if (!myCompare.IsSnappedFile(fi.FullName, fi.CreationTime.ToString(), Convert.ToString(fi.GetHashCode())))
                 {
-                    var replacementPath = fi.FullName.Replace(targetDirectory, sourceDirectory);
-                    fi.CopyTo(replacementPath);
+                    ftp.UploadFile(fi.FullName);
                 }
             }
 
@@ -28,13 +28,16 @@ namespace Service
             {
                 if (!myCompare.IsSnappedFile(di.FullName, di.CreationTime.ToString(), Convert.ToString(di.GetHashCode())))
                 {
-                    target.CreateSubdirectory(di.Name);
+                    ftp.CreateFolder(di.FullName);
                 }
-                Copy(di.FullName, target.FullName);
+                Copy(di.FullName);
             }
+
         }
-        void UpdateSnapshot(DirectoryInfo source)
+
+        public void UpdateSnapshot(DirectoryInfo source)
         {
+
             File.WriteAllText(@"C:\Temp\SnapText.txt", String.Empty);
             using (StreamWriter sw = new StreamWriter("SnapText.txt"))
             {
