@@ -8,14 +8,15 @@ namespace Service
 {
     public class Report
     {
-        public int idReport { get; set; }
-        public int idTemplateLink { get; set; }
-        public int idTemplate { get; set; }
+        public int id { get; set; }
+        public string message { get; set; }
         public int idKlient { get; set; }
-        public DateTime JobStart { get; set; }
-        public DateTime JobEnd { get; set; }
-        public string FileBackedup { get; set; }
-        public string Result { get; set; }
-        public string ErrorInfo { get; set; }
+        public int idTemplate { get; set; }
+        public string status { get; set; }
+        public DateTime sentTime { get; set; }
+        public int idTemplateLink { get; set; }
+        public DateTime startTime { get; set; }
+        public DateTime endTime { get; set; }
+        public string fileBackedUp { get; set; }
     }
 }

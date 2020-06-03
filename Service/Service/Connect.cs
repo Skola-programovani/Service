@@ -146,7 +146,7 @@ namespace Service
             return response.Headers.Location;
         }
 
-        public static async Task RunRepAsync(DateTime start, DateTime end, string backedup, string result, string errorinfo)
+        public static async Task RunRepAsync(DateTime start, DateTime end, string backedup, string status, string message)
         {
             client.BaseAddress = new Uri("https://localhost:5001/");
             client.DefaultRequestHeaders.Accept.Clear();
@@ -158,11 +158,11 @@ namespace Service
                 idTemplate = Convert.ToInt32(writer.Read((@"C:\Temp\TemplateID.txt"))),
                 idTemplateLink = 5,
                 idKlient = Convert.ToInt32(writer.Read((@"C:\Temp\KlientID.txt"))),
-                JobStart = start,
-                JobEnd = end,
-                FileBackedup = backedup,
-                Result = result,
-                ErrorInfo = errorinfo
+                startTime = start,
+                endTime = end,
+                fileBackedUp = backedup,
+                status = status,
+                message = message
             };
             try
             {

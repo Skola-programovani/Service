@@ -16,7 +16,7 @@ namespace Service
         IncrBackup2 incr = new IncrBackup2();
         Writer myWriter = new Writer();
         bool switcher = true;
-        public void Run()
+        public async Task Run()
         {
             if (switcher)
             {
@@ -29,10 +29,14 @@ namespace Service
                         {
                             if (Convert.ToInt32(File.ReadAllText(@"C:\Temp\MaxFull.txt")) == 0)
                             {
+                                DateTime start = DateTime.Now;
                                 myWriter.DecreaseInText("MaxFull");
                                 full.Copy(@"C:\1");
                                 Console.WriteLine("done");
                                 switcher = false;
+                                DateTime end = DateTime.Now;
+
+                                await Connect.RunRepAsync(start, end, @"C:\1", "done", "success");
                             }
                             else
                             {
@@ -53,10 +57,12 @@ namespace Service
                         {
                             if (Convert.ToInt32(File.ReadAllText(@"C:\Temp\MaxSegments.txt")) != 0)
                             {
+                                DateTime start = DateTime.Now;
                                 myWriter.DecreaseInText("MaxSegments");
                                 diff.Copy(@"C:\1");
                                 Console.WriteLine("done");
-                                
+                                DateTime end = DateTime.Now;
+                                await Connect.RunRepAsync(start, end, @"C:\1", "done", "success");
                             }
                             else
                             {
@@ -76,11 +82,14 @@ namespace Service
                         {
                             if (Convert.ToInt32(File.ReadAllText(@"C:\Temp\MaxSegments.txt")) != 0)
                             {
+                                DateTime start = DateTime.Now;
                                 myWriter.DecreaseInText("MaxSegments");
                                 incr.Copy(@"C:\1");
-                                incr.UpdateSnapshot(@"C:\1");
+                                var dir = new DirectoryInfo((@"C:\1"));
+                                incr.UpdateSnapshot(dir);
                                 Console.WriteLine("done");
-
+                                DateTime end = DateTime.Now;
+                                await Connect.RunRepAsync(start, end, @"C:\1", "done", "success");
                             }
                             else
                             {

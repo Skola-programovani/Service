@@ -14,7 +14,6 @@ namespace Service.Models
         public string format { get; set; }
         public int maxFull { get; set; }
         public int maxSegments { get; set; }
-        public int destinations { get; set; }
         public string[] repetition { get; set; }
 
     }

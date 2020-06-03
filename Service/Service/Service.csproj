@@ -83,7 +83,7 @@
     <Compile Include="Connect.cs" />
     <Compile Include="Backups-2.0\DiffBackup2.cs" />
     <Compile Include="Extensions\CompareDir.cs" />
-    <Compile Include="FTP.cs" />
+    <Compile Include="Extensions\FTP.cs" />
     <Compile Include="Junk\Backups\DiffBackup.cs" />
     <Compile Include="Junk\Backups\FullBackup.cs" />
     <Compile Include="Junk\Backups\IncrBackup.cs" />
